@@ -1,0 +1,15 @@
+# Ignore all .log files
+*.log
+
+# Ignore the db.sqlite3 file
+db.sqlite3
+
+# Ignore the __pycache__ folders
+__pycache__/
+
+# Ignore all files in the folder named temp/
+temp/
+
+# Ignore all files with .env extension
+*.env
+
