@@ -1,36 +1,43 @@
-<!DOCTYPE html>
-{% load static %}
-<html>
 
+{% load static %}
+{% load dict_extras %}
+
+<!DOCTYPE html>
+<html>
 <head>
     <title>Ultimate TicTacToe</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'game/board_style.css' %}" 
- </head>
+    <link rel="stylesheet" href="{% static 'game/style/board_style.css' %}">
+</head>
 <body>
     <div class="container">
-
         <div class="ultimate-board">
-            <!-- 3 big cells -->
             {% for big_row in "012"|make_list %}
                 {% for big_col in "012"|make_list %}
                     <div class="big-cell">
-                        <!-- 3x3 buttons inside each big cell -->
                         {% for small_row in "012"|make_list %}
                             {% for small_col in "012"|make_list %}
                                 <form method="post" action="{% url 'game:game-board' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="cell_id" value="{{ big_row }}{{ big_col }}-{{ small_row }}{{ small_col }}">
-                                    <button class="small-btn" id="btn-{{big_row}}{{big_col}}-{{small_row}}{{small_col}}"></button>
-                                </form>
+                                    <button class="small-btn" id="btn-{{ big_row }}{{ big_col }}-{{ small_row }}{{ small_col }}">
+                                        {% with cell_id=big_row|add:big_col|add:"-"|add:small_row|add:small_col %}
+                                            {% with symbol=cell_symbols|get:cell_id %}
+                                                {% if symbol %}
+                                                    <img src="{% static 'game/pngs/'|add:symbol|add:'.png' %}" alt="{{ symbol }}" style="width:24px; height:24px;">
+                                                    {% endif %}
+                                                {% endwith %}
+                                            {% endwith %}
+                                        </button>
+                                    </form>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
                     </div>
                 {% endfor %}
             {% endfor %}
         </div>
-
     </div>
 </body>
-
 </html>
+
+
