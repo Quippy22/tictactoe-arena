@@ -2,7 +2,7 @@
 *.log
 
 # Ignore the db.sqlite3 file
-db.sqlite3
+*.db.sqlite3
 
 # Ignore the __pycache__ folders
 __pycache__/
