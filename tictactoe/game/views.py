@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
 
@@ -11,5 +11,8 @@ class BoardView(TemplateView):
         self.symbols = ["x", "0"]
         self.current_symbol = self.symbols[0]
 
-    def turn(self):
-        pass
+    def post(self, request, *args, **kwargs):
+        cell_id = request.POST.get("cell_id")
+        print(f"cell clicked: {cell_id}")
+
+        return self.get(request, *args, **kwargs)

@@ -4,6 +4,6 @@ from .views import BoardView
 app_name = 'game'
 
 urlpatterns = [
-    path('', BoardView.as_view()), 
+    path('', BoardView.as_view(), name='game-board'), 
 ]
 

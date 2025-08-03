@@ -1,98 +1,36 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 
-    <head>
-        <title>Ultimate TicTacToe</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-             body {
-              background-color: #2e2e2e;
-              margin: 0;
-              min-height: 100vh;
-            }
-
-          .ultimate-board {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-            max-width: 480px;
-            margin: 20px auto;
-            background-color: transparent;
-          }
-
-          .big-cell {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            padding: 8px;
-            background-color: transparent;
-            border-radius: 4px;
-            transition: opacity 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 4px;
-          }
-
-          /* Add vertical middle lines (between big cells in col 1 and 2) */
-          .big-cell:nth-child(2),
-          .big-cell:nth-child(5),
-          .big-cell:nth-child(8) {
-            border-left: 4px solid white;
-            border-right: 4px solid white;
-          }
-
-          /* Add horizontal middle lines (between big cells in row 1 and 2) */
-          .big-cell:nth-child(n+4):nth-child(-n+6) {
-            border-top: 4px solid white;
-            border-bottom: 4px solid white;
-          }
-
-          .small-btn {
-            width: 50px;
-            height: 50px;
-            border: 1px solid white;
-            border-radius: 8px;
-            background-color: transparent;
-            transition: background-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-          }
-
-          .small-btn:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 8px 2px white;
-          }
-
-          .ultimate-board:hover .big-cell {
-            opacity: 0.3;
-          }
-
-          .big-cell:hover {
-            opacity: 1 !important;
-            box-shadow: 0 0 0 4px white;
-            z-index: 5;
-          }
-        </style>
-    </head>
-
-    <body>
-       
+<head>
+    <title>Ultimate TicTacToe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'game/board_style.css' %}" 
+ </head>
+<body>
     <div class="container">
 
-     <div class="ultimate-board">
-      <!-- 3 big cells -->
-      {% for big_row in "012"|make_list %}
-        {% for big_col in "012"|make_list %}
-          <div class="big-cell">
-            <!-- 3x3 buttons inside each big cell -->
-            {% for small_row in "012"|make_list %}
-              {% for small_col in "012"|make_list %}
-                <button class="small-btn" 
-                  id="btn-{{big_row}}{{big_col}}-{{small_row}}{{small_col}}">
-                </button>
-              {% endfor %}
+        <div class="ultimate-board">
+            <!-- 3 big cells -->
+            {% for big_row in "012"|make_list %}
+                {% for big_col in "012"|make_list %}
+                    <div class="big-cell">
+                        <!-- 3x3 buttons inside each big cell -->
+                        {% for small_row in "012"|make_list %}
+                            {% for small_col in "012"|make_list %}
+                                <form method="post" action="{% url 'game:game-board' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cell_id" value="{{ big_row }}{{ big_col }}-{{ small_row }}{{ small_col }}">
+                                    <button class="small-btn" id="btn-{{big_row}}{{big_col}}-{{small_row}}{{small_col}}"></button>
+                                </form>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             {% endfor %}
-          </div>
-        {% endfor %}
-      {% endfor %}
-    </div></div>
-    </body>
+        </div>
+
+    </div>
+</body>
 
 </html>
